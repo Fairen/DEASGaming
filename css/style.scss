@@ -1,0 +1,490 @@
+/*
+* Custom variables
+*/
+$main-font: 'Lato', sans-serif;
+$sub-font: 'Montserrat', sans-serif;
+$fancy-font: 'Kaushan Script', cursive;
+$font-size: 16px;
+ 
+$black: #000;
+$white: #FFF;
+$grey: #585c65;
+$mediumgrey: #9b9b9b;
+$lightgrey: #eeeeee;
+$blue: #3466a1;
+ 
+$padding: 10px;
+$margin: 10px;
+ 
+/*
+* Override Bootstrap variables 
+*/
+$font-family-sans-serif: $main-font;
+
+@import 'bootstrap';
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+/* Icons */
+.icon-circle{
+    font-size: 100px;
+    border: 5px solid white;
+    border-radius: 170px;
+    line-height: 170px;
+    width : 240px;
+    padding: 30px 30px 30px 30px;
+}
+ 
+* {
+    position: relative;
+    box-sizing: border-box;
+}
+ 
+body {
+    overflow-x : hidden;
+    color: $grey;
+    font-size: $font-size;
+}
+ 
+ 
+header {
+    max-height: 600px;
+    height: 600px;
+    overflow: hidden;
+    background: url("../images/desktop.jpg");
+    background-repeat: repeat;
+    background-position: center 0px;
+    background-attachment: fixed;
+
+}
+
+.cover{
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0,0,0,0.30);
+}
+
+.name {
+    font-size: 21px;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    color: $white;
+}
+
+.titles {
+    position: absolute;
+    bottom: 40%;
+    width: 100%;
+    text-align: center;
+
+    @media screen and (min-width: $screen-lg) {
+        bottom: 50%;
+    }
+}
+
+h1, h2 {
+    width: 100%;
+    color: $white;
+    margin: 0;
+}
+
+h1 {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 36px;
+    letter-spacing: 0.06em;
+    margin-bottom: $margin;
+
+    span {
+        display: block;
+
+        @media screen and (min-width: $screen-md) {
+            display: inline;
+        }
+    }
+}
+
+h2 {
+    font-size: 16px;
+    width: 70%;
+    margin: 0 auto;
+
+    @media screen and (min-width: $screen-lg) {
+        width: 100%;
+        margin: 0;
+    }
+}
+
+
+.fancy-font {
+    font-family: $fancy-font;
+}
+
+.social {
+    position: absolute;
+    top: 55px;
+    right: 50px;
+    overflow: hidden;
+
+    a {
+        float: left;
+        width: 26px;
+        height: 26px;
+        margin: 0 5px;
+        text-indent: -9999px;
+        background: url(../images/social-sprite2.png) no-repeat;
+        opacity: 0.8;
+
+        &:hover {
+            opacity: 1.0;
+        }
+
+        @media screen and (-webkit-min-device-pixel-ratio: 2), screen and (-min-device-pixel-ratio: 2) {
+            background: url(../images/social-sprite@2x.png) no-repeat;
+            background-size: 76px 26px;
+        }
+
+        &.github {
+            background-position: 0px 0px;
+        }
+
+        &.twitter {
+            background-position: -25px 0px;
+        }
+
+        &.instagram {
+            background-position: -50px 0px;
+        }
+    }
+ }
+
+.instagram-wrap {
+    background: $lightgrey;
+    padding : $padding*4 0 $padding*7 0;
+}
+
+.instagram-wrap-white {
+    background: white;
+}
+ 
+.instagram-content {
+    h3 {
+        text-transform: uppercase;
+        letter-spacing: 0.5em;
+        font-size: 12px;
+        font-weight: 700;
+        text-align: center;
+        padding: $padding*2.5 0;
+        color: darken($lightgrey, 20%);
+    }
+    h1{
+        text-align: center;
+        color: darken($lightgrey, 20%);
+        .icon-circle{
+            border-color: darken($lightgrey, 20%);
+        }
+    }
+ 
+}
+
+
+.sub-titles {
+    position: absolute;
+    top: 30%;
+    width: 100%;
+    text-align: center;
+
+    @media screen and (min-width: $screen-lg) {
+        top: 30%;
+    }
+     h3 {
+        text-transform: uppercase;
+        letter-spacing: 0.5em;
+        font-size: 12px;
+        font-weight: 700;
+        text-align: center;
+        padding: $padding*2.5 0;
+        color: white;
+    }
+}
+
+.project-title{
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-weight: 300;
+    font-size : 36px;
+    text-align: center;
+}
+
+.project-date{
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    font-weight: 200;
+    font-size : 18px;
+    text-align: center;
+    text-transform : capitalize;
+}
+.photo-box {
+    margin: 0 0 $margin*3 0;
+
+    .image-wrap {
+        img {
+            width: 100%;
+        }
+
+        .likes {
+            position: absolute;
+            bottom: 5px;
+            left: 15px;
+            padding: $padding/2;
+            background: $black;
+            background: rgba($black, 0.4);
+            color: $white;
+        }
+    }
+    .description {
+        font-family: $sub-font;
+        font-size: 12px;
+        background: $white;
+        color: $mediumgrey;
+        letter-spacing: 1px;
+        padding: $padding*1.5;
+        height: 75px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        .with{
+        	a{
+				cursor: pointer;
+        	}
+        }	
+    }
+}
+
+.first-image{
+    max-height: 650px;
+    height: 650px;
+    overflow: hidden;
+    background: url("../images/workspace.jpg");
+    background-repeat: repeat;
+    background-position: center 0px;
+    background-attachment: fixed;
+}
+
+.work-image{
+    max-height: 650px;
+    height: 650px;
+    overflow: hidden;
+    background: url("../images/work.jpg");
+    background-repeat: repeat;
+    background-position: center 0px;
+    background-attachment: fixed;
+}
+
+footer {
+    .icon-circle{
+        border-color: $grey;
+        color : $grey;
+    }
+    background: $white;
+    padding: $padding*3 0;
+    text-align: center;
+    margin : $margin*1 0 0 0;
+ 
+    @media screen and (min-width: $screen-lg) {
+        padding: $padding*3 0;
+    }
+ 
+    h4 {
+        font-size: 36px;
+        text-align: center;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+ 
+    .about-text {
+        padding: 0 $padding*3;
+ 
+        @media screen and (min-width: $screen-lg) {
+            width: 650px;
+            margin: 0 auto;
+        }
+    }
+ 
+    .contact-now-btn {
+        display: inline-block;
+        width: 70%;
+        padding: $padding*2 $padding*5;
+        margin-top: $margin*2;
+        color: lighten($grey, 20%);
+        background: $white;
+        border : 2px solid lighten($grey, 20%);
+        font-size: 13px;
+        letter-spacing: 1px;
+        text-decoration: none;
+        text-transform: uppercase;
+ 
+        @media screen and (min-width: $screen-md) {
+            width: 60%;
+        }
+ 
+        @media screen and (min-width: $screen-lg) {
+            width: 20%;
+            margin-top: $margin*5;
+        }
+ 
+        &:hover {
+            background: lighten($grey, 20%);
+            border-color : lighten($grey, 20%);
+            color: $white;
+        }
+    }
+    .fa-twitter{
+            font-size: 36px;
+            border: 2px solid $grey;
+            border-radius: 30px;
+            padding: 6px 7px;
+            color: $white;
+            background-color: $grey;
+            vertical-align: bottom;
+            margin: 20px;
+    }
+    .fa-twitter:hover{
+            border: 2px solid #2daae4;
+            color: $white;
+            background-color: #2daae4;
+    }
+    .fa-github{
+            font-size: 61px;
+            line-height: 52px;
+            margin: 20px;
+            color: $grey;
+    }
+    .fa-github:hover{
+        color: #4078c0;
+    }
+    .fa-instagram{
+            font-size: 36px;
+            border: 2px solid $grey;
+            border-radius: 100px;
+            color: $white;
+            background-color: $grey;
+            padding: 6px 9px;
+            vertical-align: bottom;
+            margin: 20px;
+    }
+    .fa-instagram:hover{
+        border: 2px solid #125688;
+        color: $white;
+        background-color: #125688;
+    }
+    .fa-send{
+        font-size: 32px;
+        border: 2px solid $grey;
+        border-radius: 100px;
+        color: $white;
+        background-color: $grey;
+        padding: 8px 11px 8px 5px;
+        vertical-align: bottom;
+        margin: 20px;
+    }
+    .fa-send:hover{
+        border: 2px solid #2272b9;
+        color: $white;
+        background-color: #2272b9;
+    }
+
+}
+
+.footer-bottom {
+    background: $white;
+    padding: $padding $padding*6;
+    border-top: 2px solid $lightgrey;
+    letter-spacing: 2px;
+    text-align: center;
+    color: $mediumgrey;
+    text-transform: uppercase;
+ 
+    @media screen and (min-width: $screen-md) {
+        padding: $padding*4 0;
+    }
+}
+
+.curveUpColor, .curveDownColor{
+    position: absolute;
+    left: 0;
+    z-index: 1;
+}
+.curveDownColor {
+    margin-bottom: -100px;
+}
+.curveUpColor {
+    margin-top: -100px;
+}
+
+.curveGrey{
+    fill: $lightgrey;      
+    stroke: $lightgrey;
+}
+
+.curveWhite{
+    fill: white;      
+    stroke: white;
+}
+
+#footer-block,
+#map{
+    height : 600px;
+}
+
+.projects{
+    .items{
+        margin-top: $margin*7.5;
+    }
+}
+
+.work{
+    .items{
+        margin-top: $margin*10;
+        margin-bottom: $margin*5;
+        &:last-child{
+            margin-bottom: $margin*10;
+        }
+    }
+    .skill{
+        padding : 10% 0 0 0;
+        h3{
+            font-family: 'Yanone Kaffeesatz', sans-serif;
+            font-weight: 300;
+            font-size : 36px;
+            text-align: left;
+            letter-spacing : 0.2em;
+            color: $grey;
+        }
+        p{
+            font-family: 'Yanone Kaffeesatz', sans-serif;
+            font-weight: 200;
+            font-size : 18px;
+            text-align: justify;
+        }
+    }
+}
+
+.vparallax-container{
+    padding : 0 $padding*10 0 $padding*10; 
+}
+
+.picture-row{
+    text-align: right;
+    margin-top: $margin*3;
+    img{
+        height: 80px;
+        width: auto;
+    }
+}
