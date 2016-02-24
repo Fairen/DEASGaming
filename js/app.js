@@ -1,3 +1,44 @@
+        
+       // Load the IFrame Player API code asynchronously.
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/player_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+
+        function onPlayerStateChange(){
+          if (event.data == 0) {
+           $("#currentTrack").text(player.getVideoData().title);
+          }
+        }
+
+        function onPlayerReady(){
+           $("#currentTrack").text(player.getVideoData().title);
+        }
+
+        function onYouTubePlayerAPIReady() {
+          var zone = new Date();
+          var listId = "PLRBp0Fe2GpgmsW46rJyudVFlY6IYjFBIK";
+          if(zone.getHours() > 22 || zone.getHours() < 6){
+            listId = "PLRBp0Fe2Gpgm57nFVNM7qYZ9u64U9Q-Bf";
+          }
+          player = new YT.Player('playlist', {
+            height: '0',
+            width: '0',
+            playerVars : {
+              listType : 'playlist',
+              list : listId,
+              autoplay : 1,
+              loop : 1
+            },
+            events: {
+              onReady: onPlayerReady,
+              onStateChange: onPlayerStateChange
+            }
+          });
+        }
+
 
       if ( ! Detector.webgl ) {
 
@@ -195,10 +236,5 @@
               $('#player').slideUp();
            }
         },false);
-
-        var zone = new Date();
-        if(zone.getHours() > 22 || zone.getHours() < 6){
-          $("#playlist").attr("src","https://www.youtube.com/embed?listType=playlist&list=PLRBp0Fe2Gpgm57nFVNM7qYZ9u64U9Q-Bf&autoplay=1");
-        }        
 
       })

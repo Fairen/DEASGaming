@@ -5315,8 +5315,8 @@ body {
   font-size: 16px; }
 
 header {
-  max-height: 600px;
-  height: 600px;
+  max-height: 800px;
+  height: 800px;
   overflow: hidden;
   background: url("../images/desktop.jpg");
   background-repeat: repeat;
@@ -5341,12 +5341,12 @@ header {
 
 .titles {
   position: absolute;
-  bottom: 15%;
+  bottom: 30%;
   width: 100%;
   text-align: center; }
   @media screen and (min-width: 1200px) {
     .titles {
-      bottom: 25%; } }
+      bottom: 35%; } }
 
 h1, h2 {
   width: 100%;
@@ -5665,11 +5665,12 @@ footer {
 body{
 	/*background: url(images/background.png) no-repeat center center fixed;*/
 	background: #3d3d3d;
+    overflow-y:hidden;
 }
 
 .instagram-wrap{
-    min-height: 1000px;
-    height: 1000px;
+    min-height: 100vh;
+    height: 100vh;
 
 }
 
@@ -5694,4 +5695,17 @@ body{
     height: 100%;
     z-index: 0;
     opacity: 0.2;
+}
+
+.name{
+    bottom : 8vh;
+    top : initial;
+}
+
+#playing{
+    -webkit-filter: brightness(5000%);
+}
+
+#playlist{
+    position: absolute;
 }
