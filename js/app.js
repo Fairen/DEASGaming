@@ -198,7 +198,7 @@
 
         var zone = new Date();
         if(zone.getHours() > 22 || zone.getHours() < 6){
-          $("#playlist").attr("src","http://www.youtube.com/embed?listType=playlist&list=PLRBp0Fe2Gpgm57nFVNM7qYZ9u64U9Q-Bf&autoplay=1");
+          $("#playlist").attr("src","https://www.youtube.com/embed?listType=playlist&list=PLRBp0Fe2Gpgm57nFVNM7qYZ9u64U9Q-Bf&autoplay=1");
         }        
 
       })
