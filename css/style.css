@@ -5698,8 +5698,24 @@ body{
 }
 
 .name{
-    bottom : 8vh;
+    bottom : 6vh;
     top : initial;
+    transform: rotate(-10deg);
+    left: 1vw;
+}
+@media screen and (min-width: 1200px) {
+    .name{
+        bottom : 4vh;
+    }
+}
+ @media (max-width: 768px) {
+     .name{
+        bottom : 10vh;
+    }
+ }
+
+.name  span{
+    font-size: 16px;
 }
 
 #playing{

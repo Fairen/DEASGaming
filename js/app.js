@@ -7,16 +7,18 @@
 
         var player;
 
-        function onPlayerStateChange(){
-          if (event.data == 0) {
-           $("#currentTrack").text(player.getVideoData().title);
+
+        function onPlayerReady(event){
+            $("#currentTrack").text(player.getVideoData().title);
+            event.target.playVideo();
+        }
+
+        function onPlayerStateChange(event){
+          if(event.data === 1) {
+            $("#currentTrack").text(player.getVideoData().title);
           }
         }
-
-        function onPlayerReady(){
-           $("#currentTrack").text(player.getVideoData().title);
-        }
-
+        
         function onYouTubePlayerAPIReady() {
           var zone = new Date();
           var listId = "PLRBp0Fe2GpgmsW46rJyudVFlY6IYjFBIK";
@@ -29,12 +31,12 @@
             playerVars : {
               listType : 'playlist',
               list : listId,
-              autoplay : 1,
+              shuffle : 1,
               loop : 1
             },
             events: {
-              onReady: onPlayerReady,
-              onStateChange: onPlayerStateChange
+              'onReady': onPlayerReady,
+              'onStateChange': onPlayerStateChange
             }
           });
         }
