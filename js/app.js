@@ -10,14 +10,14 @@
 
         function onPlayerReady(event){
             $("#currentTrack").text(player.getVideoData().title);
-            $('#currentTrack').circleType({radius: window.innerWidth});
+            // $('#currentTrack').circleType({radius: window.innerWidth});
             event.target.playVideo();
         }
 
         function onPlayerStateChange(event){
           if(event.data === 1) {
             $("#currentTrack").text(player.getVideoData().title);
-            $('#currentTrack').circleType({radius: window.innerWidth});
+            // $('#currentTrack').circleType({radius: window.innerWidth});
           }
         }
         
@@ -72,8 +72,9 @@
         var context = canvas.getContext( '2d' );
 
         var gradient = context.createLinearGradient( 0, 0, 0, canvas.height );
-        gradient.addColorStop(0, "#82addb");
-        gradient.addColorStop(0.5, "#ebb2b1");
+
+        gradient.addColorStop(0, "#82addb"); 
+        gradient.addColorStop(1, "#ebb2b1"); 
 
         context.fillStyle = gradient;
         context.fillRect(0, 0, canvas.width, canvas.height);
@@ -94,7 +95,7 @@
         texture.magFilter = THREE.LinearMipMapLinearFilter;
         texture.minFilter = THREE.LinearMipMapLinearFilter;
 
-        var fog = new THREE.Fog( 0xefd1b5, - 100, 3000 );
+        var fog = new THREE.Fog( 0xebb2b1, - 100, 3000 );
 
         material = new THREE.ShaderMaterial( {
 
@@ -181,7 +182,7 @@
 
 
           //feed to parse
-          var feed = "http://euw.leagueoflegends.com/en/rss.xml";
+          var feed = "https://euw.leagueoflegends.com/en/rss.xml";
           
           $.ajax(feed, {
               accepts:{
