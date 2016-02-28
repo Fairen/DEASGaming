@@ -10,12 +10,14 @@
 
         function onPlayerReady(event){
             $("#currentTrack").text(player.getVideoData().title);
+            $('#currentTrack').circleType({radius: window.innerWidth});
             event.target.playVideo();
         }
 
         function onPlayerStateChange(event){
           if(event.data === 1) {
             $("#currentTrack").text(player.getVideoData().title);
+            $('#currentTrack').circleType({radius: window.innerWidth});
           }
         }
         
@@ -42,72 +44,114 @@
         }
 
 
-      if ( ! Detector.webgl ) {
 
-        Detector.addGetWebGLMessage();
-        document.getElementById( 'container' ).innerHTML = "";
-
-      }
+      if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
       var container;
+      var camera, scene, renderer;
+      var mesh, geometry, material;
 
-      var camera, controls, scene, renderer;
+      var mouseX = 0, mouseY = 0;
+      var start_time = Date.now();
 
-      var mesh, texture;
-
-      var worldWidth = 256, worldDepth = 256,
-      worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
-
-      var clock = new THREE.Clock();
+      var windowHalfX = window.innerWidth / 2;
+      var windowHalfY = window.innerHeight / 2;
 
       init();
-      animate();
 
       function init() {
 
-        container = document.getElementById( 'container' );
- 
-        camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight , 1, 1000 );
+        container = $("#container")[0];
+
+        // Bg gradient
+
+        var canvas = document.createElement( 'canvas' );
+        canvas.width = 32;
+        canvas.height = window.innerHeight;
+
+        var context = canvas.getContext( '2d' );
+
+        var gradient = context.createLinearGradient( 0, 0, 0, canvas.height );
+        gradient.addColorStop(0, "#82addb");
+        gradient.addColorStop(0.5, "#ebb2b1");
+
+        context.fillStyle = gradient;
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        container.style.background = 'url(' + canvas.toDataURL('image/png') + ')';
+        container.style.backgroundSize = '32px 100%';
+
+        //
+
+        camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 3000 );
+        camera.position.z = 6000;
 
         scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2( 0xefd1b5, 0.0025 );
 
-        data = generateHeight( worldWidth, worldDepth );
+        geometry = new THREE.Geometry();
 
-        camera.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
+        var texture = THREE.ImageUtils.loadTexture( 'cloud10.png', null, animate );
+        texture.magFilter = THREE.LinearMipMapLinearFilter;
+        texture.minFilter = THREE.LinearMipMapLinearFilter;
 
-        var geometry = new THREE.PlaneBufferGeometry( 7500, 7500, worldWidth - 1, worldDepth - 1 );
-        geometry.rotateX( - Math.PI / 2 );
+        var fog = new THREE.Fog( 0xefd1b5, - 100, 3000 );
 
-        var vertices = geometry.attributes.position.array;
+        material = new THREE.ShaderMaterial( {
 
-        for ( var i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
+          uniforms: {
 
-          vertices[ j + 1 ] = data[ i ] * 10;
+            "map": { type: "t", value: texture },
+            "fogColor" : { type: "c", value: fog.color },
+            "fogNear" : { type: "f", value: fog.near },
+            "fogFar" : { type: "f", value: fog.far },
+
+          },
+          vertexShader: document.getElementById( 'vs' ).textContent,
+          fragmentShader: document.getElementById( 'fs' ).textContent,
+          depthWrite: false,
+          depthTest: false,
+          transparent: true
+
+        } );
+
+        var plane = new THREE.Mesh( new THREE.PlaneGeometry( 64, 64 ) );
+
+        for ( var i = 0; i < 8000; i++ ) {
+
+          plane.position.x = Math.random() * 1000 - 500;
+          plane.position.y = - Math.random() * Math.random() * 200 - 15;
+          plane.position.z = i;
+          plane.rotation.z = Math.random() * Math.PI;
+          plane.scale.x = plane.scale.y = Math.random() * Math.random() * 1.5 + 0.5;
+
+          THREE.GeometryUtils.merge( geometry, plane );
 
         }
 
-        texture = new THREE.CanvasTexture( generateTexture( data, worldWidth, worldDepth ) );
-        texture.wrapS = THREE.ClampToEdgeWrapping;
-        texture.wrapT = THREE.ClampToEdgeWrapping;
-
-        mesh = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { map: texture } ) );
+        mesh = new THREE.Mesh( geometry, material );
         scene.add( mesh );
 
-        renderer = new THREE.WebGLRenderer();
-        renderer.setClearColor( 0xefd1b5 );
-        renderer.setPixelRatio( window.devicePixelRatio );
+        mesh = new THREE.Mesh( geometry, material );
+        mesh.position.z = - 8000;
+        scene.add( mesh );
+
+        renderer = new THREE.WebGLRenderer( { antialias: false } );
         renderer.setSize( window.innerWidth, window.innerHeight );
-
-        container.innerHTML = "";
-
         container.appendChild( renderer.domElement );
 
+        document.addEventListener( 'mousemove', onDocumentMouseMove, false );
         window.addEventListener( 'resize', onWindowResize, false );
 
       }
 
-      function onWindowResize() {
+      function onDocumentMouseMove( event ) {
+
+        mouseX = ( event.clientX - windowHalfX ) * 0.25;
+        mouseY = ( event.clientY - windowHalfY ) * 0.15;
+
+      }
+
+      function onWindowResize( event ) {
 
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
@@ -116,116 +160,45 @@
 
       }
 
-      function generateHeight( width, height ) {
-
-        var size = width * height, data = new Uint8Array( size ),
-        perlin = new ImprovedNoise(), quality = 1, z = Math.random() * 100;
-
-        for ( var j = 0; j < 4; j ++ ) {
-
-          for ( var i = 0; i < size; i ++ ) {
-
-            var x = i % width, y = ~~ ( i / width );
-            data[ i ] += Math.abs( perlin.noise( x / quality, y / quality, z ) * quality * 1.75 );
-
-          }
-
-          quality *= 5;
-
-        }
-
-        return data;
-
-      }
-
-      function generateTexture( data, width, height ) {
-
-        var canvas, canvasScaled, context, image, imageData,
-        level, diff, vector3, sun, shade;
-
-        vector3 = new THREE.Vector3( 0, 0, 0 );
-
-        sun = new THREE.Vector3( 1, 1, 1 );
-        sun.normalize();
-
-        canvas = document.createElement( 'canvas' );
-        canvas.width = width;
-        canvas.height = height;
-
-        context = canvas.getContext( '2d' );
-        context.fillStyle = '#000';
-        context.fillRect( 0, 0, width, height );
-
-        image = context.getImageData( 0, 0, canvas.width, canvas.height );
-        imageData = image.data;
-
-        for ( var i = 0, j = 0, l = imageData.length; i < l; i += 4, j ++ ) {
-
-          vector3.x = data[ j - 2 ] - data[ j + 2 ];
-          vector3.y = 2;
-          vector3.z = data[ j - width * 2 ] - data[ j + width * 2 ];
-          vector3.normalize();
-
-          shade = vector3.dot( sun );
-
-          imageData[ i ] = ( 96 + shade * 128 ) * ( 0.5 + data[ j ] * 0.007 );
-          imageData[ i + 1 ] = ( 32 + shade * 96 ) * ( 0.5 + data[ j ] * 0.007 );
-          imageData[ i + 2 ] = ( shade * 96 ) * ( 0.5 + data[ j ] * 0.007 );
-
-        }
-
-        context.putImageData( image, 0, 0 );
-
-        // Scaled 4x
-
-        canvasScaled = document.createElement( 'canvas' );
-        canvasScaled.width = width * 4;
-        canvasScaled.height = height * 4;
-
-        context = canvasScaled.getContext( '2d' );
-        context.scale( 4, 4 );
-        context.drawImage( canvas, 0, 0 );
-
-        image = context.getImageData( 0, 0, canvasScaled.width, canvasScaled.height );
-        imageData = image.data;
-
-        for ( var i = 0, l = imageData.length; i < l; i += 4 ) {
-
-          var v = ~~ ( Math.random() * 5 );
-
-          imageData[ i ] += v;
-          imageData[ i + 1 ] += v;
-          imageData[ i + 2 ] += v;
-
-        }
-
-        context.putImageData( image, 0, 0 );
-
-        return canvasScaled;
-
-      }
-
-
       function animate() {
 
         requestAnimationFrame( animate );
 
-        render();
+        position = ( ( Date.now() - start_time ) * 0.03 ) % 8000;
 
-      }
-
-
-      function render() {
-
-        var timer = Date.now() * 0.00005;
-
-        camera.position.x = Math.cos( timer ) * 1500;
-        camera.position.y = Math.sin( timer ) * 1500;
-
-        camera.lookAt( scene.position );
+        camera.position.x += (camera.position.x ) * 0.01;
+        camera.position.y += ( - camera.position.y ) * 0.01;
+        camera.position.z = - position + 8000;
 
         renderer.render( scene, camera );
 
+      }
+
+      function getRssNews(){
+
+          
+          $(".defile").html("");
+
+
+          //feed to parse
+          var feed = "http://euw.leagueoflegends.com/en/rss.xml";
+          
+          $.ajax(feed, {
+              accepts:{
+                  xml:"application/rss+xml"
+              },
+              dataType:"xml",
+              success:function(data) {
+                  var datafeedlist = "";
+                  $(data).find("item").each(function () { 
+                      var el = $(this);
+                      $(".defile").append($("<a href='"+el.find("link").text()+"' target='_blank' >"+ el.find("title").text() + "</a>"));
+                      datafeedlist += el.find("title").text() + " - " ;
+                  });
+                  $(".defile").attr("data-text",datafeedlist);
+                  setTimeout(getRssNews,1800000);
+              }  
+          });
       }
 
       $(function(){
@@ -238,5 +211,23 @@
               $('#player').slideUp();
            }
         },false);
+
+        $(".logo").on("click",function(){
+          if(player.isMuted()){
+            player.unMute();
+          }else{
+            player.mute();
+          }
+        });
+
+        $(".fa-angle-left").on("click",function(){
+          player.previousVideo();
+        });
+
+        $(".fa-angle-right").on("click",function(){
+          player.nextVideo();
+        });
+
+        getRssNews();
 
       })

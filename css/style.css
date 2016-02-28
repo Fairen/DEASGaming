@@ -5315,8 +5315,8 @@ body {
   font-size: 16px; }
 
 header {
-  max-height: 800px;
-  height: 800px;
+  max-height: 100vh;
+  height: 100vh;
   overflow: hidden;
   background: url("../images/desktop.jpg");
   background-repeat: repeat;
@@ -5335,18 +5335,34 @@ header {
 .name {
   font-size: 21px;
   position: absolute;
-  top: 50px;
   left: 50px;
   color: #FFF; }
 
 .titles {
   position: absolute;
-  bottom: 30%;
+  bottom: 33%;
   width: 100%;
   text-align: center; }
   @media screen and (min-width: 1200px) {
     .titles {
-      bottom: 35%; } }
+      bottom: 37%; } }
+
+.bounce-on-hover{
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+}
+
+.bounce-on-hover:active {
+  -webkit-transform: scale(0.8);
+    transform: scale(0.8);
+    -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+    transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+}
 
 h1, h2 {
   width: 100%;
@@ -5663,8 +5679,8 @@ footer {
 
 
 body{
-	/*background: url(images/background.png) no-repeat center center fixed;*/
-	background: #3d3d3d;
+  /*background: url(images/background.png) no-repeat center center fixed;*/
+  background: #3d3d3d;
     overflow-y:hidden;
 }
 
@@ -5675,12 +5691,12 @@ body{
 }
 
 #player{
-	display: block;
-	height: 70vh;
-	width: calc( ( 152 / 77 ) * 70vh );
-	margin: auto;
-	margin-top: 15vh;
-	z-index: 2;
+  display: block;
+  height: 70vh;
+  width: calc( ( 152 / 77 ) * 70vh );
+  margin: auto;
+  margin-top: 15vh;
+  z-index: 2;
     position: relative;
 }
 
@@ -5697,15 +5713,28 @@ body{
     opacity: 0.2;
 }
 
+
+.titles:hover .fa{
+    display: inline-block;
+}
+
+.titles .fa{
+    display: none;
+    font-size: 64px;
+    vertical-align: middle;
+}
+
 .name{
-    bottom : 6vh;
-    top : initial;
-    transform: rotate(-10deg);
-    left: 1vw;
+    
+     bottom: 93px;
+    transform: rotate(5deg);
+    right: 5vw;
+    text-align: right;
+
 }
 @media screen and (min-width: 1200px) {
     .name{
-        bottom : 4vh;
+     bottom: 93px;
     }
 }
  @media (max-width: 768px) {
@@ -5716,12 +5745,103 @@ body{
 
 .name  span{
     font-size: 16px;
+    color: black;
+    display: inline-block;
 }
 
-#playing{
-    -webkit-filter: brightness(5000%);
+.name img{
+    vertical-align: middle;
+    margin-right: 10px;
 }
 
 #playlist{
     position: absolute;
+}
+
+#feedlist {
+    display: block;
+    margin: 1em auto;
+    overflow: hidden;
+    position: absolute;
+    table-layout: fixed;
+    width: 100vw;
+    top: 0;
+}
+.defile {
+    display:block;
+    -webkit-animation:linear marqueelike 20s infinite ;
+    -moz-animation:linear marqueelike 20s infinite ;
+    -o-animation:linear marqueelike 20s infinite ;
+    -ms-animation:linear marqueelike 20s infinite ;
+    animation:linear marqueelike 20s infinite ;
+    margin-left:-100%;
+    padding:0 5px;
+    text-align:left;
+    height:25px;
+    color: white;
+}
+
+.defile a{
+    color : white !important;
+    text-decoration: none !important;
+}
+
+.defile a:not(:first-child):before{
+    content : " - ";
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+
+.defile:after {
+    content:attr(data-text);
+    position:absolute;
+    white-space:nowrap;
+    padding-left:10px;
+}
+
+@-webkit-keyframes marqueelike {
+    0%, 100% {margin-left:0;}
+    99.99% {margin-left:-100%;}
+ }
+@-moz-keyframes marqueelike {
+    0%, 100% {margin-left:0;}
+    99.99% {margin-left:-100%;}
+ }
+@-o-keyframes marqueelike {
+    0%, 100% {margin-left:0;}
+    99.99% {margin-left:-100%;}
+ }
+@-ms-keyframes marqueelike {
+    0%, 100% {margin-left:0;}
+    99.99% {margin-left:-100%;}
+ }
+@keyframes marqueelike {
+    0%, 100% {margin-left:0;}
+    99.99% {margin-left:-100%;}
+ }
+
+@media only screen and (max-width: 860px) {
+    #feedlist {
+        display: block;
+        margin: 3em auto;
+        overflow: hidden;
+        position: absolute;
+        table-layout: fixed;
+        width: 100vw;
+        top : 0 ;
+    }
+
+    .defile {
+        display:block;
+        -webkit-animation:linear marqueelike 15s infinite ;
+        -moz-animation:linear marqueelike 15s infinite ;
+        -o-animation:linear marqueelike 15s infinite ;
+        -ms-animation:linear marqueelike 15s infinite ;
+        animation:linear marqueelike 15s infinite ;
+        margin-left:-100%;
+        padding:0 5px;
+        text-align:left;
+        height:25px;
+    }
 }
