@@ -354,9 +354,11 @@
           window.addEventListener("scroll",function() { 
            if(window.scrollY > 500) {
               $('#player').slideDown();
+              player.mute();
            }
            else {
               $('#player').slideUp();
+              player.unMute();
            }
         },false);
 
