@@ -57,9 +57,157 @@
       var windowHalfX = window.innerWidth / 2;
       var windowHalfY = window.innerHeight / 2;
 
+      function applyGradient(gradient){
+        var zone = new Date();
+        switch (zone.getHours()){
+          case 0 :
+            gradient.addColorStop(1,"#00000c");
+            break;
+          case 1 :
+            gradient.addColorStop(0.55,"#191621");
+            gradient.addColorStop(0,"#020111");
+            break;
+          case 2 :
+            gradient.addColorStop(0,"#020111");
+            gradient.addColorStop(0.4,"#20202c");
+            break;
+          case 3 :
+            gradient.addColorStop(0.10,"#020111");
+            gradient.addColorStop(1,"#3a3a52");
+            break;
+          case 4 :
+            gradient.addColorStop(0.0,"#20202c");
+            gradient.addColorStop(1,"#515175");
+            break;
+          case 5 :
+            gradient.addColorStop(0.0,"#40405c");
+            gradient.addColorStop( 0.80,"#6f71aa");
+            gradient.addColorStop(1,"#8a76ab");
+            break;
+          case 6 :
+            gradient.addColorStop(0,"#4a4969");
+            gradient.addColorStop(0.5,"#7072ab");
+            gradient.addColorStop(1,"#cd82a0");
+            break;
+          case 7 :
+            gradient.addColorStop(0.0,"#757abf");
+            gradient.addColorStop( 0.60,"#8583be");
+            gradient.addColorStop(1,"#eab0d1");
+            break;
+          case 8 :
+            gradient.addColorStop(0.0,"#82addb");
+            gradient.addColorStop(1,"#ebb2b1");
+            break;
+          case 9 :
+            gradient.addColorStop(0.1,"#94c5f8");
+            gradient.addColorStop( 0.70,"#a6e6ff");
+            gradient.addColorStop(1,"#b1b5ea");
+            break;
+          case 10 :
+            gradient.addColorStop(0.0,"#b7eaff");
+            gradient.addColorStop(1,"#94dfff");
+            break;
+          case 11 :
+            gradient.addColorStop(0.0,"#9be2fe");
+            gradient.addColorStop(1,"#67d1fb");
+            break;
+          case 12 :
+            gradient.addColorStop(1,"#90dffe");
+            gradient.addColorStop(0,"#38a3d1");
+            break;
+          case 13 :
+            gradient.addColorStop(0.0,"#57c1eb");
+            gradient.addColorStop(1,"#246fa8");
+            break;
+          case 14 :
+            gradient.addColorStop(0.0,"#2d91c2");
+            gradient.addColorStop(1,"#1e528e");
+            break;
+          case 15 :
+            gradient.addColorStop(1,"#5b7983");
+            gradient.addColorStop(0.8,"#1e528e");
+            gradient.addColorStop(0,"#2473ab");
+            break;
+          case 16 :
+            gradient.addColorStop(0.0,"#1e528e");
+            gradient.addColorStop( 0.50,"#265889");
+            gradient.addColorStop(1,"#9da671");
+            break;
+          case 17 :
+            gradient.addColorStop(0.0,"#1e528e");
+            gradient.addColorStop( 0.50,"#728a7c");
+            gradient.addColorStop(1,"#e9ce5d");
+            break;
+          case 18 :
+            gradient.addColorStop(0,"#154277");
+            gradient.addColorStop(0.30,"#576e71");
+            gradient.addColorStop(0.70,"#e1c45e");
+            gradient.addColorStop(1,"#b26339");
+            break;
+          case 19 :
+            gradient.addColorStop(0,"#163C52");
+            gradient.addColorStop(0.3,"#4F4F47");
+            gradient.addColorStop(0.6,"#C5752D");
+            gradient.addColorStop(0.8,"#B7490F");
+            gradient.addColorStop(1,"#2F1107");
+            break;
+          case 20 :
+            gradient.addColorStop(0,"#071B26");
+            gradient.addColorStop(0.30,"#071B26");
+            gradient.addColorStop(0.80,"#8A3B12");
+            gradient.addColorStop(100,"#240E03");
+            break;
+          case 21 :
+            gradient.addColorStop(0.30,"#010A10");
+            gradient.addColorStop( 0.80,"#59230B");
+            gradient.addColorStop(0.100,"#2F1107");
+            break;
+          case 22 :
+            gradient.addColorStop(0.50,"#090401");
+            gradient.addColorStop(0.100,"#4B1D06");
+            break;
+          case 23 :
+            gradient.addColorStop(0.80,"#00000c");
+            gradient.addColorStop(0.100,"#150800");
+            break;
+          case 24 :
+            gradient.addColorStop(0.1,"#00000c");
+            break;
+        }
+      }
+
+      function toggleFullScreen() {
+        if (!document.fullscreenElement &&    // alternative standard method
+            !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement ) {  // current working methods
+          if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+          } else if (document.documentElement.msRequestFullscreen) {
+            document.documentElement.msRequestFullscreen();
+          } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+          } else if (document.documentElement.webkitRequestFullscreen) {
+            document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+          }
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          }
+        }
+      }
+
       init();
 
       function init() {
+
+        $("#container").dblclick(function(){
+          toggleFullScreen();
+        });
 
         container = $("#container")[0];
 
@@ -73,8 +221,7 @@
 
         var gradient = context.createLinearGradient( 0, 0, 0, canvas.height );
 
-        gradient.addColorStop(0, "#82addb"); 
-        gradient.addColorStop(1, "#ebb2b1"); 
+        applyGradient(gradient);        
 
         context.fillStyle = gradient;
         context.fillRect(0, 0, canvas.width, canvas.height);
