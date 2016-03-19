@@ -25,7 +25,7 @@
           var zone = new Date();
           var listId = "PLRBp0Fe2GpgmsW46rJyudVFlY6IYjFBIK";
           if(zone.getHours() > 22 || zone.getHours() < 6){
-            listId = "PL75C7F02E0C4EA3E0";
+            listId = "PLRBp0Fe2Gpgm57nFVNM7qYZ9u64U9Q-Bf";
           }
           player = new YT.Player('playlist', {
             height: '0',
@@ -155,23 +155,23 @@
             gradient.addColorStop(0,"#071B26");
             gradient.addColorStop(0.30,"#071B26");
             gradient.addColorStop(0.80,"#8A3B12");
-            gradient.addColorStop(100,"#240E03");
+            gradient.addColorStop(1,"#240E03");
             break;
           case 21 :
             gradient.addColorStop(0.30,"#010A10");
             gradient.addColorStop( 0.80,"#59230B");
-            gradient.addColorStop(0.100,"#2F1107");
+            gradient.addColorStop(1,"#2F1107");
             break;
           case 22 :
-            gradient.addColorStop(0.50,"#090401");
-            gradient.addColorStop(0.100,"#4B1D06");
+            gradient.addColorStop(0.45,"#090401");
+            gradient.addColorStop(0.90,"#4B1D06");
             break;
           case 23 :
             gradient.addColorStop(0.80,"#00000c");
-            gradient.addColorStop(0.100,"#150800");
+            gradient.addColorStop(1,"#150800");
             break;
           case 24 :
-            gradient.addColorStop(0.1,"#00000c");
+            gradient.addColorStop(1,"#00000c");
             break;
         }
       }
@@ -329,7 +329,7 @@
 
 
           //feed to parse
-          var feed = "https://euw.leagueoflegends.com/en/rss.xml";
+          var feed = "http://euw.leagueoflegends.com/en/rss.xml";
           
           $.ajax(feed, {
               accepts:{
@@ -354,11 +354,9 @@
           window.addEventListener("scroll",function() { 
            if(window.scrollY > 500) {
               $('#player').slideDown();
-              player.mute();
            }
            else {
               $('#player').slideUp();
-              player.unMute();
            }
         },false);
 
